@@ -1,0 +1,19 @@
+[data-organism=gmapfullscreen]
+  PADDING = 0.75rem
+  FOOTER_HEIGHT = 3.35rem
+  > [data-atom=gmap]
+    position: absolute
+    z-index: 0
+    width: 100%
+    height: 100%
+
+  > [data-atom=button], > [data-molecule=form]
+    z-index: 1
+
+  > [data-atom=button]
+    margin: PADDING
+
+  > [data-molecule=form]
+    position: absolute
+    bottom: FOOTER_HEIGHT
+    padding: PADDING
