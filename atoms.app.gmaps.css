@@ -1,0 +1,4 @@
+[data-organism=gmapfullscreen] > [data-atom=gmap]{position:absolute;z-index:0;width:100%;height:100%;min-height:10%}
+[data-organism=gmapfullscreen] > [data-atom=button],[data-organism=gmapfullscreen] > [data-molecule=form]{z-index:1}
+[data-organism=gmapfullscreen] > [data-atom=button]{margin:.75rem}
+[data-organism=gmapfullscreen] > [data-molecule=form]{position:absolute;bottom:3.35rem;padding:.75rem}

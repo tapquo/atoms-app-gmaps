@@ -11,18 +11,20 @@
 class Atoms.Atom.GMap extends Atoms.Class.Atom
 
   @template : """
-    <div {{#if.style}}class="{{style}}"{{/if.style}}></div>"""
+    <div {{#if.style}}class="{{style}}"{{/if.style}} height="{{#if.height}}height:{{height}};{{/if.height}}"></div>"""
 
   @base : "GMap"
 
   markers: []
 
   constructor: (attributes = {}) ->
+    @default =
+      height: "100%"
     super attributes
     do @onGmapsLoad
 
   # Events
-  onGmapsLoad: =>
+  onGmapsLoad: ->
     setTimeout =>
       options =
         center          : new google.maps.LatLng(-34.397, 150.644)
@@ -51,10 +53,10 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
   zoom: (level) ->
     @instance.setZoom level
 
-  addMarker: (position, icon, animate = true) ->
+  addMarker: (position, icon, animate = false) ->
     marker = new google.maps.Marker
       map       : @instance
-      # icon      : @__markerIcon icon
+      icon      : @__markerIcon icon
       # animation : google.maps.Animation.DROP
       position  : new google.maps.LatLng(position.latitude, position.longitude)
     marker.setAnimation google.maps.Animation.BOUNCE if animate
@@ -74,6 +76,11 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
 
 
 # @TODO: Add GoogleMaps JavaScript Library
+script = document.createElement("script")
+script.type = "text/javascript"
+script.src = "https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&" + "callback=initialize"
+document.body.appendChild script
+
 # script = document.createElement "script"
 # script.setAttribute "type","text/javascript"
 # script.setAttribute "src", "https://maps.googleapis.com/maps/api/js?key=AIzaSyD4FyqIXGamKXOdG5RndSg9y_c-07Ul6-w&sensor=true"

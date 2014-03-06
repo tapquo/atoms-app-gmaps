@@ -33,9 +33,12 @@ class Atoms.Organism.GMapFullScreen extends Atoms.Organism.Section
     # @gmap.style "height", @el.height()
 
   onFormSubmit: (event, form, hierarchy...) ->
+    event.preventDefault()
     console.log ">>"
-    @gmap.zoom 12
-    @gmap.addMarker position: latitude: 1, longitude: 1
+    position = latitude: 43.256963, longitude: -2.923441
+    @gmap.addMarker position
+    @gmap.center position
+    @gmap.zoom 16
 
   onButtonTouch: ->
     false
