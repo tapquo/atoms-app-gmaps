@@ -74,14 +74,7 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
     else
       null
 
-
-# @TODO: Add GoogleMaps JavaScript Library
 script = document.createElement("script")
 script.type = "text/javascript"
-script.src = "https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&" + "callback=initialize"
+script.src = "https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&callback=console.log"
 document.body.appendChild script
-
-# script = document.createElement "script"
-# script.setAttribute "type","text/javascript"
-# script.setAttribute "src", "https://maps.googleapis.com/maps/api/js?key=AIzaSyD4FyqIXGamKXOdG5RndSg9y_c-07Ul6-w&sensor=true"
-# document.getElementsByTagName("body")[0].appendChild script
