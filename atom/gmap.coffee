@@ -11,20 +11,19 @@
 class Atoms.Atom.GMap extends Atoms.Class.Atom
 
   @template : """
-    <div {{#if.style}}class="{{style}}"{{/if.style}} height="{{#if.height}}height:{{height}};{{/if.height}}"></div>"""
+    <div {{#if.style}}class="{{style}}"{{/if.style}}></div>"""
 
   @base : "GMap"
 
   markers: []
 
   constructor: (attributes = {}) ->
-    @default =
-      height: "100%"
     super attributes
     do @onGmapsLoad
 
   # Events
   onGmapsLoad: ->
+    # @TODO: Detect when google script it's up & running
     setTimeout =>
       options =
         center          : new google.maps.LatLng(-34.397, 150.644)
@@ -33,7 +32,6 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
         sensor          : false
         disableDefaultUI: true
       @instance = new google.maps.Map @el[0], options
-      @el.style "height", @el.parent()[0].clientHeight + "px"
     , 1000
 
   # Methods Instance

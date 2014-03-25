@@ -10,9 +10,6 @@
 
 class Atoms.Organism.GMapFullScreen extends Atoms.Organism.Section
 
-  # @template: """
-  #   <div></div>"""
-
   @available: ["Atom.Input", "Atom.Button", "Atom.GMap", "Molecule.Form"]
 
   constructor: ->
@@ -23,18 +20,21 @@ class Atoms.Organism.GMapFullScreen extends Atoms.Organism.Section
         "Atom.Button": icon: "navicon", style: "small"
       ,
         "Molecule.Form": events: ["submit"], children: [
-          "Atom.Input": name: "adress", placeholder: "Type a address", style: "small", required: true
+          "Atom.Input": name: "adress", placeholder: "Type a address", required: true
         ,
-          "Atom.Button": icon: "search", text: "Search", style: "small fluid accept"
+          "Atom.Button": icon: "search", text: "Search", style: "fluid accept"
         ]
       ]
     super
+    @bind "show", @onShow
 
-    # @gmap.style "height", @el.height()
+  onShow: ->
+    setTimeout =>
+      @gmap.el.style "height", @gmap.el.parent()[0].clientHeight + "px"
+    , 10
 
   onFormSubmit: (event, form, hierarchy...) ->
     event.preventDefault()
-    console.log ">>"
     position = latitude: 43.256963, longitude: -2.923441
     @gmap.addMarker position
     @gmap.center position
