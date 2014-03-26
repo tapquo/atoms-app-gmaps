@@ -10,6 +10,10 @@
 
 class Atoms.Organism.GMapFullScreen extends Atoms.Organism.Section
 
+  @template : """
+    <section {{#if.id}}id="{{id}}"{{/if.id}}></section>
+  """
+
   @available: ["Atom.Input", "Atom.Button", "Atom.GMap", "Molecule.Form"]
 
   constructor: ->
@@ -26,12 +30,6 @@ class Atoms.Organism.GMapFullScreen extends Atoms.Organism.Section
         ]
       ]
     super
-    @bind "show", @onShow
-
-  onShow: ->
-    setTimeout =>
-      @gmap.el.style "height", @gmap.el.parent()[0].clientHeight + "px"
-    , 10
 
   onFormSubmit: (event, form, hierarchy...) ->
     event.preventDefault()
