@@ -15,10 +15,11 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
 
   @base     : "GMap"
 
-  @events   : ["route"]
+  @events   : ["query", "route"]
 
-  _markers  : []
   _map      : null
+  _markers  : []
+  _query    : []
   _route    : null
 
   output: ->
@@ -34,7 +35,22 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
   zoom: (level) ->
     @_map.setZoom level
 
-  addMarker: (position, icon, animate = false) ->
+  query: (value) ->
+    parameters = {}
+    unless typeof value is "string"
+      parameters.latLng = __queryPlace value
+    else
+      parameters.address = value
+
+    @_query = []
+    service = new google.maps.Geocoder()
+    service.geocode parameters, (results, status) =>
+      if status is google.maps.GeocoderStatus.OK
+        @_query = (__parseAddress result for result in results)
+      @bubble "query", @_query
+    true
+
+  marker: (position, icon, animate = false) ->
     marker = new google.maps.Marker
       map       : @_map
       icon      : __markerIcon icon
@@ -42,8 +58,9 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
       position  : new google.maps.LatLng(position.latitude, position.longitude)
     marker.setAnimation google.maps.Animation.BOUNCE if animate
     @_markers.push marker
+    true
 
-  route: (origin, destination, mode, _markers) ->
+  route: (origin, destination, mode = "DRIVING", markers) ->
     @clean()
     service = new google.maps.DirectionsService()
 
@@ -54,9 +71,14 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
 
     service.route parameters, (@_route, status) =>
       if status is google.maps.DirectionsStatus.OK
-        @_route.renderer = new google.maps.DirectionsRenderer(suppressMarkers: true)
+        parameters = suppressMarkers: markers?
+        @_route.renderer = new google.maps.DirectionsRenderer parameters
         @_route.renderer.setMap @_map
         @_route.renderer.setDirections @_route
+
+        @__markersInRoute markers if markers
+        @bubble "route", @_route
+    true
 
   routeInstructions: ->
     instructions = @_route?.routes[0]?.legs[0]
@@ -64,7 +86,7 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
       instructions =
         distance: instructions.distance.text
         duration: instructions.duration.text
-        steps   : __routeSteps instructions
+        steps   : __parseRouteSteps instructions
     instructions
 
   clean: ->
@@ -85,6 +107,16 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
       @_map = new google.maps.Map @el[0], options
     , 1000
 
+  __markersInRoute: (markers) ->
+    instructions = @_route?.routes[0]?.legs[0]
+    if markers.origin
+      start = instructions.start_location
+      console.log "origin", markers.origin
+      @marker latitude: start.k, longitude: start.A, markers.origin
+    if markers.destination
+      end = instructions.end_location
+      @marker latitude: end.k, longitude: end.A, markers.destination
+
 
 # ==============================================================================
 
@@ -103,9 +135,9 @@ __markerIcon = (icon) ->
   if icon
     new google.maps.MarkerImage(
       icon.url,
-      new google.maps.Size( icon.size.x, icon.size.y ),
+      new google.maps.Size( icon.size_x, icon.size_y ),
       new google.maps.Point( 0, 0 ),
-      new google.maps.Point( icon.anchor.x, icon.anchor.y )
+      new google.maps.Point( icon.anchor_x, icon.anchor_y )
     )
   else
     null
@@ -118,7 +150,14 @@ __queryPlace = (value) ->
       value = null
   value
 
-__routeSteps = (instructions) ->
+__parseAddress = (address) ->
+  address : address.formatted_address
+  type    : address.types[0]
+  position:
+    latitude  : address.geometry.location.k
+    longitude : address.geometry.location.A
+
+__parseRouteSteps = (instructions) ->
   steps = []
   for step in instructions.steps
     steps.push
@@ -126,3 +165,5 @@ __routeSteps = (instructions) ->
       duration    : step.duration.text,
       instructions: step.instructions
   steps
+
+

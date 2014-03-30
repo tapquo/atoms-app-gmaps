@@ -16,15 +16,17 @@ class Atoms.Organism.GMapFullScreen extends Atoms.Organism.Section
 
   @available: ["Atom.Input", "Atom.Button", "Atom.GMap", "Molecule.Form"]
 
+  @events   : ["menu"]
+
   constructor: ->
     @default =
       children: [
-        "Atom.GMap": id: "gmap"
+        "Atom.GMap": id: "gmap", events: ["query"]
       ,
-        "Atom.Button": icon: "navicon", style: "small"
+        "Atom.Button": icon: "navicon", style: "small", callbacks: ["onMenu"]
       ,
         "Molecule.Form": events: ["submit"], children: [
-          "Atom.Input": name: "adress", placeholder: "Type a address", required: true
+          "Atom.Input": name: "address", placeholder: "Type a address", required: true
         ,
           "Atom.Button": icon: "search", text: "Search", style: "fluid accept"
         ]
@@ -33,10 +35,16 @@ class Atoms.Organism.GMapFullScreen extends Atoms.Organism.Section
 
   onFormSubmit: (event, form, hierarchy...) ->
     event.preventDefault()
-    position = latitude: 43.256963, longitude: -2.923441
-    @gmap.addMarker position
-    @gmap.center position
-    @gmap.zoom 16
+    @gmap.query form.value().address
+    false
 
-  onButtonTouch: ->
+  onGMapQuery: (places, map, hierarchy...) ->
+    map.clean()
+    if places.length > 0
+      map.marker places[0].position
+      map.center places[0].position, zoom = 16
+    false
+
+  onMenu: (event, button) ->
+    @bubble "menu", event
     false
