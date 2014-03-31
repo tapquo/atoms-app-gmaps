@@ -8,7 +8,9 @@
 ###
 "use strict"
 
-class Atoms.Organism.GMapFullScreen extends Atoms.Organism.Section
+class Atoms.Organism.GMap extends Atoms.Organism.Section
+
+  @extends  : true
 
   @template : """
     <section {{#if.id}}id="{{id}}"{{/if.id}}></section>
@@ -20,10 +22,11 @@ class Atoms.Organism.GMapFullScreen extends Atoms.Organism.Section
 
   constructor: ->
     @default =
+      style   : "menu form",
       children: [
-        "Atom.GMap": id: "gmap", events: ["query"]
+        "Atom.GMap": id: "instance", events: ["query"]
       ,
-        "Atom.Button": icon: "navicon", style: "small", callbacks: ["onMenu"]
+        "Atom.Button": icon: "navicon", style: "small"
       ,
         "Molecule.Form": events: ["submit"], children: [
           "Atom.Input": name: "address", placeholder: "Type a address", required: true
@@ -33,18 +36,19 @@ class Atoms.Organism.GMapFullScreen extends Atoms.Organism.Section
       ]
     super
 
-  onFormSubmit: (event, form, hierarchy...) ->
+  onFormSubmit: (event, form) ->
     event.preventDefault()
-    @gmap.query form.value().address
+    @instance.query form.value().address
     false
 
-  onGMapQuery: (places, map, hierarchy...) ->
-    map.clean()
+  onGMapQuery: (places) ->
+    @instance.clean()
     if places.length > 0
-      map.marker places[0].position
-      map.center places[0].position, zoom = 16
+      @instance.marker places[0].position
+      @instance.center places[0].position, zoom = 16
     false
 
-  onMenu: (event, button) ->
+  onButtonTouch: (event) ->
+    event.preventDefault()
     @bubble "menu", event
     false
