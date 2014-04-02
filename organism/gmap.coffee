@@ -20,21 +20,19 @@ class Atoms.Organism.GMap extends Atoms.Organism.Section
 
   @events   : ["menu"]
 
-  constructor: ->
-    @default =
-      style   : "menu form",
-      children: [
-        "Atom.GMap": id: "instance", events: ["query"]
+  @default  :
+    style   : "menu form",
+    children: [
+      "Atom.GMap": id: "instance", events: ["query"]
+    ,
+      "Atom.Button": icon: "navicon", style: "small"
+    ,
+      "Molecule.Form": events: ["submit"], children: [
+        "Atom.Input": name: "address", placeholder: "Type a address", required: true
       ,
-        "Atom.Button": icon: "navicon", style: "small"
-      ,
-        "Molecule.Form": events: ["submit"], children: [
-          "Atom.Input": name: "address", placeholder: "Type a address", required: true
-        ,
-          "Atom.Button": icon: "search", text: "Search", style: "fluid accept"
-        ]
+        "Atom.Button": icon: "search", text: "Search", style: "fluid accept"
       ]
-    super
+    ]
 
   onFormSubmit: (event, form) ->
     event.preventDefault()

@@ -1,4 +1,3 @@
-
 ## Atom.GMap
 Es el elemento básico de esta extensión, en este átomo encontrarás todas las funcionalidades necesarias para crear y gestionar un mapa. Dispones de atributos para definir el tamaño del mapa asi como de métodos y eventos que te facilitarán el trabajo con la APIv3 de Google.
 
@@ -44,7 +43,7 @@ Este método sirve para buscar puntos localizados utilizando el servicio de geop
 **Parameters**
 
 ```
-value:  Object|String {latitude, longitude} 
+value:  Object|String {latitude, longitude}
 ```
 **Example**
 
@@ -58,7 +57,7 @@ var bilbao = gmap_instance.query({latitude: 43.25, longitude:  -2.92});
 ```
 address  : String
 type     : String
-location : Object {latitude, longitude} 
+location : Object {latitude, longitude}
 ```
 
 #### .marker()
@@ -81,8 +80,8 @@ gmap_instance.marker({latitude: 43.25, longitude:  -2.92}, null, true);
 Este método sirve para crear rutas entre dos puntos, estos puntos pueden establecerse tanto por latitud y longitud como por una cadena de texto. Además podemos establecer el modo para llegar del origen al destino (coche, transporte, bicicleta y andando) asi como establecer sus *"pushpin"* personalizados.
 
 ```
-origin      : Object|String {latitude, longitude} 
-destination : Object|String {latitude, longitude} 
+origin      : Object|String {latitude, longitude}
+destination : Object|String {latitude, longitude}
 mode        : String "DRIVING", "WALKING", "BICYCLING", "TRANSIT" [OPTIONAL]
 markers     : Object [OPTIONAL]
 ```
