@@ -12,10 +12,6 @@ class Atoms.Organism.GMap extends Atoms.Organism.Section
 
   @extends  : true
 
-  @template : """
-    <section {{#if.id}}id="{{id}}"{{/if.id}}></section>
-  """
-
   @available: ["Atom.Input", "Atom.Button", "Atom.GMap", "Molecule.Form"]
 
   @events   : ["menu"]
