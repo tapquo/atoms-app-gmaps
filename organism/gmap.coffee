@@ -1,8 +1,8 @@
 ###
 @TODO
 
-@namespace Atoms.Molecule
-@class GMapFullScreen
+@namespace Atoms.Organism
+@class GMap
 
 @author Javier Jimenez Villar <javi@tapquo.com> || @soyjavi
 ###
