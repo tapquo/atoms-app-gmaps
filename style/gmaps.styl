@@ -1,7 +1,20 @@
+@import "../../../style/__vendor.styl"
+
 [data-atom=gmap]
   position: relative
   display: block
-  background-color: #CCC
+  background-color: #ddd
+
+  display-box()
+  box-align(center)
+  box-pack(center)
+
+  > .icon
+    display: block
+    font-size: SIZE = 3rem
+    width: SIZE
+    height: SIZE
+    color: WHITE
 
   &.big
     height: 12rem
