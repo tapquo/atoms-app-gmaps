@@ -92,7 +92,7 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
     instructions
 
   clean: ->
-    marker.setMap = null for marker in @_markers
+    marker.setMap null for marker in @_markers
     @_markers = []
     @_route?.renderer.setMap null
     @_route = null
