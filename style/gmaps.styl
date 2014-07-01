@@ -9,19 +9,19 @@
   align-content center
   align-items center
 
-  > .icon
-    display: block
-    font-size: SIZE = 3rem
-    width: SIZE
-    height: SIZE
-    color: WHITE
-
   &.big
     height: 12rem
   &.small
     height: 6rem
   &:not(.big):not(.small)
     height: 8rem
+
+  > .icon
+    display: block
+    font-size: SIZE = 3rem
+    width: SIZE
+    height: SIZE
+    color: WHITE
 
 [data-organism=section][data-extend=gmap]
   position: relative
@@ -34,7 +34,7 @@
 
   > [data-atom=button], > [data-molecule=form]
     z-index: 1
-    position: absolute
+    position: absolute !important
 
   AIR = 0.75rem
   > [data-atom=button]
@@ -42,12 +42,13 @@
     margin: AIR
 
   > [data-molecule=form]
+    right: 0
     bottom: 0
-    padding: AIR
+    left: 0
+    margin: AIR
 
-  // &:not(.menu) > [data-atom=button]
-  //   display: none
-
-  // &:not(.form) > [data-molecule=form]
-  //   display: none
-
+    > [data-atom=input]
+      background-color: WHITE
+      padding-left: .5rem
+      padding-right: .5rem
+      box-shadow: none !important

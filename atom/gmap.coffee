@@ -26,12 +26,19 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
 
   output: ->
     super
-    exists = Atoms.$("[data-extension=gmap]").length > 0
-    if exists then do @__init else __loadScript @__init
+    if Atoms.$("[data-extension=gmap]").length > 0
+      do @__init
+    else
+      url = "https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&callback=console.log"
+      Atoms.resource("gmap", "script", url).then (error, value) =>
+        unless error
+          do @__init
+        else
+          console.error "Atoms.App.GMap error loading resources"
 
   # Methods Instance
   center: (position, zoom_level = 8) ->
-    @_map.setCenter new google.maps.LatLng(position.latitude, position.longitude)
+    @_map.setCenter new google?.maps?.LatLng(position.latitude, position.longitude)
     @zoom zoom_level
 
   zoom: (level) ->
@@ -45,7 +52,7 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
       parameters.address = value
 
     @_query = []
-    service = new google.maps.Geocoder()
+    service = new google?.maps?.Geocoder()
     service.geocode parameters, (results, status) =>
       if status is google.maps.GeocoderStatus.OK
         @_query = (__parseAddress result for result in results)
@@ -53,10 +60,9 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
     true
 
   marker: (position, icon, animate = false) ->
-    marker = new google.maps.Marker
+    marker = new google?.maps?.Marker
       map       : @_map
       icon      : __markerIcon icon
-      # animation : google.maps.Animation.DROP
       position  : new google.maps.LatLng(position.latitude, position.longitude)
     marker.setAnimation google.maps.Animation.BOUNCE if animate
     @_markers.push marker
@@ -64,7 +70,7 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
 
   route: (origin, destination, mode = "DRIVING", markers) ->
     @clean()
-    service = new google.maps.DirectionsService()
+    service = new google?.maps?.DirectionsService()
 
     parameters =
       origin      : __queryPlace origin
@@ -101,13 +107,13 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
   __init: =>
     setTimeout =>
       options =
-        center          : new google.maps.LatLng(43.256963, -2.923441)
+        center          : new google?.maps?.LatLng(43.256963, -2.923441)
         zoom            : 1
         mobile          : true
         sensor          : false
         disableDefaultUI: true
-      @_map = new google.maps.Map @el[0], options
-    , 1000
+      @_map = new google?.maps?.Map @el[0], options
+    , 2000
 
   __markersInRoute: (markers) ->
     instructions = @_route?.routes[0]?.legs[0]
@@ -121,21 +127,9 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
 
 
 # ==============================================================================
-
-__loadScript = (callback) ->
-  window.google = maps: {}
-  script = document.createElement("script")
-  script.type = "text/javascript"
-  script.src = "https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&callback=console.log"
-  script.setAttribute "data-extension", "gmap"
-  script.onload = -> callback.call @ if callback?
-  document.body.appendChild script
-
-do __loadScript
-
 __markerIcon = (icon) ->
   if icon
-    new google.maps.MarkerImage(
+    new google?.maps?.MarkerImage(
       icon.url,
       new google.maps.Size( icon.size_x, icon.size_y ),
       new google.maps.Point( 0, 0 ),
@@ -147,7 +141,7 @@ __markerIcon = (icon) ->
 __queryPlace = (value) ->
   unless typeof value is "string"
     if value.latitude? and value.longitude?
-      value = new google.maps.LatLng value.latitude, value.longitude
+      value = new google?.maps?.LatLng value.latitude, value.longitude
     else
       value = null
   value
@@ -167,5 +161,3 @@ __parseRouteSteps = (instructions) ->
       duration    : step.duration.text,
       instructions: step.instructions
   steps
-
-

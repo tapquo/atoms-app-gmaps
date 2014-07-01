@@ -23,23 +23,19 @@ class Atoms.Organism.GMap extends Atoms.Organism.Section
     ,
       "Atom.Button": icon: "navicon", style: "small"
     ,
-      "Molecule.Form": events: ["submit"], children: [
-        "Atom.Input": name: "address", placeholder: "Type a address", required: true
-      ,
-        "Atom.Button": icon: "search", text: "Search", style: "fluid accept"
-      ]
+      "Molecule.Search": events: ["submit"]
     ]
 
-  onFormSubmit: (event, form) ->
+  onSearchSubmit: (event, search) ->
     event.preventDefault()
-    @instance.query form.value().address
+    @instance.query search.value()
     false
 
   onGMapQuery: (places) ->
     @instance.clean()
     if places.length > 0
       @instance.marker places[0].position
-      @instance.center places[0].position, zoom = 16
+      @instance.center places[0].position, zoom = 15
     false
 
   onButtonTouch: (event) ->
