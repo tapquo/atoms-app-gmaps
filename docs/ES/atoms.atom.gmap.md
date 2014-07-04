@@ -67,7 +67,7 @@ Este método sirve para representar un *"pushpin"* en el mapa, debes indicar su 
 
 ```
 position : Object {latitude, longitude}
-icon     : Object {url, size_x, size_y, point_x, point_y} [OPTIONAL]
+icon     : Object {url, size_x, size_y, anchor_x, anchor_y} [OPTIONAL]
 animate  : Boolean [OPTIONAL]
 ```
 **Example**
