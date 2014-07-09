@@ -151,7 +151,7 @@ __parseAddress = (address) ->
   type    : address.types[0]
   position:
     latitude  : address.geometry.location.k
-    longitude : address.geometry.location.A
+    longitude : address.geometry.location.B
 
 __parseRouteSteps = (instructions) ->
   steps = []
