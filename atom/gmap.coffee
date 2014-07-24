@@ -119,7 +119,6 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
     instructions = @_route?.routes[0]?.legs[0]
     if markers.origin
       start = instructions.start_location
-      console.log "origin", markers.origin
       @marker latitude: start.k, longitude: start.A, markers.origin
     if markers.destination
       end = instructions.end_location
