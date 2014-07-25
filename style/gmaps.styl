@@ -1,6 +1,6 @@
 @import "../../../style/__vendor.styl"
 
-[data-atom=gmap]
+[data-atom-gmap]
   position: relative
   display: block
   background-color: #ddd
@@ -21,28 +21,28 @@
     height: SIZE
     color: WHITE
 
-[data-atom=gmap].full, [data-organism=section][data-extend=gmap] > [data-atom=gmap]
+[data-atom-gmap].full, [data-organism-section=gmap] > [data-atom-gmap]
   position: absolute !important
   width: 100% !important
   height: 100% !important
 
-[data-organism=section][data-extend=gmap]
+[data-organism-section=gmap]
   position: relative
-  > [data-atom=gmap]
+  > [data-atom-gmap]
     z-index: 0
-  > [data-atom=button], > [data-molecule=form]
+  > [data-atom-button], > [data-molecule-form]
     z-index: 1
     position: absolute !important
   AIR = 0.75rem
-  > [data-atom=button]
+  > [data-atom-button]
     top: 0
     margin: AIR
-  > [data-molecule=form]
+  > [data-molecule-form]
     right: 0
     bottom: 0
     left: 0
     margin: AIR
-    > [data-atom=input]
+    > [data-atom-input]
       background-color: WHITE
       padding-left: .5rem
       padding-right: .5rem
