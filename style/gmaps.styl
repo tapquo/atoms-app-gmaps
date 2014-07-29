@@ -8,11 +8,17 @@
   justify-content center
   align-content center
   align-items center
+  &.full
+    position: absolute !important
+    width: 100% !important
+    height: 100% !important
   &.big
     height: 12rem
   &.small
     height: 6rem
-  &:not(.full):not(.big):not(.small)
+  &.tiny
+    height: 4rem
+  &:not(.full):not(.big):not(.small):not(.tiny)
     height: 8rem
   > .icon
     display: block
@@ -20,30 +26,3 @@
     width: SIZE
     height: SIZE
     color: WHITE
-
-[data-atom-gmap].full, [data-organism-section=gmap] > [data-atom-gmap]
-  position: absolute !important
-  width: 100% !important
-  height: 100% !important
-
-[data-organism-section=gmap]
-  position: relative
-  > [data-atom-gmap]
-    z-index: 0
-  > [data-atom-button], > [data-molecule-form]
-    z-index: 1
-    position: absolute !important
-  AIR = 0.75rem
-  > [data-atom-button]
-    top: 0
-    margin: AIR
-  > [data-molecule-form]
-    right: 0
-    bottom: 0
-    left: 0
-    margin: AIR
-    > [data-atom-input]
-      background-color: WHITE
-      padding-left: .5rem
-      padding-right: .5rem
-      box-shadow: none !important
