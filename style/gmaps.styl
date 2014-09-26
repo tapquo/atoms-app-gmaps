@@ -3,7 +3,7 @@
 [data-atom-gmap]
   position: relative
   display: block
-  background-color: #ddd
+  background-color: COLOR = #ddd
   display-flex()
   justify-content center
   align-content center
@@ -21,8 +21,6 @@
   &:not(.full):not(.big):not(.small):not(.tiny)
     height: 8rem
   > .icon
-    display: block
-    font-size: SIZE = 3rem
-    width: SIZE
-    height: SIZE
-    color: WHITE
+    font-size: SIZE = 2.5rem
+    color: lighten(COLOR, 90%)
+    animation loading-icon 2s infinite linear

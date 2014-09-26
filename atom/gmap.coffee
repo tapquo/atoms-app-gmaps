@@ -12,7 +12,7 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
 
   @template : """
     <div {{#if.style}}class="{{style}}"{{/if.style}}>
-      <span class="icon loading-d"></span>
+      <span class="icon loading-config"></span>
     </div>"""
 
   @base     : "GMap"
