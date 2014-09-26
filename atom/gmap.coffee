@@ -10,6 +10,8 @@
 
 class Atoms.Atom.GMap extends Atoms.Class.Atom
 
+  @version  : "1.0.1"
+
   @template : """
     <div {{#if.style}}class="{{style}}"{{/if.style}}>
       <span class="icon loading-config"></span>
