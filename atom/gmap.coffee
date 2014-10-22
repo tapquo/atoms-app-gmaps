@@ -19,7 +19,7 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
 
   @base     : "GMap"
 
-  @events   : ["query", "route"]
+  @events   : ["touch", "query", "route", "marker"]
 
   _map      : null
   _markers  : []
@@ -61,12 +61,16 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
       @bubble "query", @_query
     true
 
-  marker: (position, icon, animate = false) ->
+  marker: (attributes) ->
     marker = new google?.maps?.Marker
       map       : @_map
-      icon      : __markerIcon icon
-      position  : new google.maps.LatLng(position.latitude, position.longitude)
-    marker.setAnimation google.maps.Animation.BOUNCE if animate
+      icon      : __markerIcon attributes.icon
+      position  : new google.maps.LatLng(attributes.latitude, attributes.longitude)
+      id        : attributes.id
+    marker.setAnimation google.maps.Animation.BOUNCE if attributes.animate
+    if attributes.id
+      google.maps.event.addListener marker, "click", (e) =>
+        @bubble "marker", id: marker.id
     @_markers.push marker
     true
 
@@ -108,13 +112,17 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
   # Privates
   __init: =>
     setTimeout =>
-      options =
-        center          : new google?.maps?.LatLng(43.256963, -2.923441)
-        zoom            : 1
-        mobile          : true
-        sensor          : false
-        disableDefaultUI: true
-      @_map = new google?.maps?.Map @el[0], options
+      if google?.maps?
+        options =
+          center          : new google.maps.LatLng(43.256963, -2.923441)
+          zoom            : 1
+          mobile          : true
+          sensor          : false
+          disableDefaultUI: true
+        @_map = new google.maps.Map @el[0], options
+        if "touch" in (@attributes.events or [])
+          google.maps.event.addListener @_map, "click", (e) =>
+            @bubble "touch", latitude: e.latLng.k, longitude: e.latLng.B
     , 2000
 
   __markersInRoute: (markers) ->

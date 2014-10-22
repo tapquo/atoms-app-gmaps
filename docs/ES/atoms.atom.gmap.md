@@ -61,20 +61,28 @@ location : Object {latitude, longitude}
 ```
 
 #### .marker()
-Este método sirve para representar un *"pushpin"* en el mapa, debes indicar su latitud y longitud además de que en el caso de que lo necesites modificar el icono por defecto que ofrece este servicio.
+Este método sirve para representar un *"pushpin"* en el mapa, debes indicar su latitud y longitud además de que en el caso de que lo necesites modificar el icono por defecto que ofrece este servicio. En este método existe un atributo opcion, `id`, el cual activará el evento `marker` que se instanciará cuando pulsemos sobre el marker creado.
 
 **Parameters**
 
 ```
-position : Object {latitude, longitude}
+latitude : Number
+longitude: Number
 icon     : Object {url, size_x, size_y, anchor_x, anchor_y} [OPTIONAL]
 animate  : Boolean [OPTIONAL]
+id       : String [OPTIONAL]
 ```
 **Example**
 
 ```
-gmap_instance.marker({latitude: 43.25, longitude:  -2.92}, null, true);
+gmap_instance.marker({
+  latitude : 43.25, 
+  longitude:  -2.92,
+  animation: true,
+  id       : "02934asdasd930111"
+});
 ```
+
 
 #### .route()
 Este método sirve para crear rutas entre dos puntos, estos puntos pueden establecerse tanto por latitud y longitud como por una cadena de texto. Además podemos establecer el modo para llegar del origen al destino (coche, transporte, bicicleta y andando) asi como establecer sus *"pushpin"* personalizados.
@@ -126,8 +134,15 @@ gmap_instance.clean();
 
 ### Events
 
+#### onGMapTouch
+Este método se desplegará cuando pulsemos sobre el mapa. Devuelve como resultado un objeto con los atributos `latitude` y `longitude`.
+
+
 #### onGMapQuery
 Este método se desplegará cuando el método `query` devuelva resultados.
 
 #### onGMapRoute
 Este método se desplegará cuando el método `route` genere una ruta.
+
+#### onGMapMarker
+Este método se desplegará cuando pulsemos sobre un determinado `marker`, devolviendo el `id` del mismo.
