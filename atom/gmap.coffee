@@ -10,7 +10,7 @@
 
 class Atoms.Atom.GMap extends Atoms.Class.Atom
 
-  @version  : "1.0.1"
+  @version  : "1.0.2"
 
   @template : """
     <div {{#if.style}}class="{{style}}"{{/if.style}}>
@@ -19,7 +19,7 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
 
   @base     : "GMap"
 
-  @events   : ["touch", "query", "route", "marker"]
+  @events   : ["touch", "query", "route", "marker", "load"]
 
   _map      : null
   _markers  : []
@@ -29,12 +29,12 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
   output: ->
     super
     if Atoms.$("[data-extension=gmap]").length > 0
-      do @__init
+      do @__load
     else
       url = "https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&callback=console.log"
       Atoms.resource("gmap", "script", url).then (error, value) =>
         unless error
-          do @__init
+          do @__load
         else
           console.error "Atoms.App.GMap error loading resources"
 
@@ -109,21 +109,22 @@ class Atoms.Atom.GMap extends Atoms.Class.Atom
     @_route?.renderer.setMap null
     @_route = null
 
-  # Privates
-  __init: =>
-    setTimeout =>
-      if google?.maps?
-        options =
+  # -- Privates ----------------------------------------------------------------
+  __load: =>
+    @handleInterval = setInterval =>
+      if google?.maps?.Map?
+        clearInterval @handleInterval
+        @bubble "load"
+        @_map = new google.maps.Map @el[0],
           center          : new google.maps.LatLng(43.256963, -2.923441)
           zoom            : 1
           mobile          : true
           sensor          : false
           disableDefaultUI: true
-        @_map = new google.maps.Map @el[0], options
         if "touch" in (@attributes.events or [])
           google.maps.event.addListener @_map, "click", (e) =>
             @bubble "touch", latitude: e.latLng.k, longitude: e.latLng.B
-    , 2000
+    , 200
 
   __markersInRoute: (markers) ->
     instructions = @_route?.routes[0]?.legs[0]

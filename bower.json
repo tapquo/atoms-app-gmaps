@@ -1,6 +1,6 @@
 {
   "name": "atoms-app-gmaps",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "atoms.app.gmaps.js",
   "homepage": "http://atoms.tapquo.com",
   "license": "MIT",
